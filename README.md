@@ -15,31 +15,24 @@ Talk 是一个基于 Flask + MySQL + Vue3 + Tailwind CSS 的高科技感技术�
 
 ## 一键本地部署
 
-### 1. 启动后端与数据库
+### 1. 一键启动所有服务（推荐）
 ```bash
 cd deploy
-# 一键启动后端+MySQL
-# 首次启动后，访问前端页面，填写数据库信息完成初始化
-# 后端端口5000，数据库3306
-# 如需Nginx反代，需自行启动Nginx
+# 一键启动前端+后端+MySQL+Nginx
+# 首次启动后，访问 http://localhost 填写数据库信息完成初始化
 
 docker-compose up --build
 ```
+- 启动后，直接访问 [http://localhost](http://localhost) 即可体验完整系统
+- Nginx 统一反代前端静态资源和后端API
+- 后端端口5000，数据库3306，前端由nginx serve，无需单独启动
 
-### 2. 启动前端
-```bash
-cd frontend
-npm install
-npm run dev
-# 默认端口5173，访问 http://localhost:5173
-```
-
-### 3. 生产部署建议
+### 2. 生产部署建议
 - 前端打包：`npm run build`，产物在 `frontend/dist/`
 - 推荐用 Nginx 部署前端静态资源，并反向代理 `/api` 到后端
 - 参考 `deploy/nginx.conf`，将前端 `dist` 目录内容拷贝到 Nginx 静态目录
 
-### 4. 主要API接口
+### 3. 主要API接口
 - POST /api/register：注册
 - POST /api/login：登录
 - GET /api/user/profile：获取用户信息

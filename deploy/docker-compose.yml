@@ -20,9 +20,26 @@ services:
     environment:
       DATABASE_URL: mysql+pymysql://root:root@db:3306/talk
       SECRET_KEY: dev_secret
-    ports:
-      - "5000:5000"
     depends_on:
       - db
+  frontend:
+    build: ../frontend
+    container_name: frontend
+    restart: always
+    depends_on:
+      - backend
+    # 前端静态资源由nginx统一serve，无需暴露端口
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../frontend/dist:/usr/share/nginx/html
+    depends_on:
+      - frontend
+      - backend
 volumes:
   db_data: 
